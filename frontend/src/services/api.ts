@@ -1,7 +1,10 @@
 import { type ApiResponse, type ImportPayload } from "@/types/api";
 import { type ImportResult } from "@/types/csv";
 
-const API_URL = process.env["NEXT_PUBLIC_API_URL"] ?? "http://localhost:5000/api/v1";
+const API_URL =
+  typeof window !== "undefined" && window.location.origin.includes("localhost")
+    ? process.env["NEXT_PUBLIC_API_URL"] ?? "http://localhost:5000"
+    : "";
 
 class ApiClient {
   private baseUrl: string;
@@ -38,14 +41,14 @@ class ApiClient {
   }
 
   async importCsv(payload: ImportPayload): Promise<ImportResult> {
-    return this.request<ImportResult>("/import", {
+    return this.request<ImportResult>("/api/v1/import", {
       method: "POST",
       body: JSON.stringify(payload),
     });
   }
 
   async healthCheck(): Promise<{ status: string; timestamp: string; version: string }> {
-    return this.request("/health");
+    return this.request("/api/v1/health");
   }
 }
 

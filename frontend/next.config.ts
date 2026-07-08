@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  distDir: "out",
+  trailingSlash: true,
   images: {
-    formats: ["image/avif", "image/webp"],
+    unoptimized: true,
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
